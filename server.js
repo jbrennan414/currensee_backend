@@ -17,12 +17,25 @@ async function getRatesFromRedis(){
     return rates;
 }
 
+async function getLatestTimestampFromRedis(){
+    console.log("Getting timestamp from redis...")
+    const timestamp = new Promise((resolve, reject) => {
+        // TODO add error handling here
+        client.get('timestamp', function (err, res) {
+            resolve(res)
+        })
+    })
+
+    return timestamp;
+}
+
 async function addExchangeRatesToRedis(isProduction){
     
     if (isProduction) {
         let exchangeRates = await fetchExchangeRates()
         console.log(`Setting fresh exchange rates to redis at ${exchangeRates.timestamp}`)
         client.HMSET("rates", exchangeRates["rates"])
+        client.set("timestamp", exchangeRates["timestamp"])
         return "OK";
 
     } else {
@@ -33,7 +46,7 @@ async function addExchangeRatesToRedis(isProduction){
         let sampleExchangeRates = JSON.parse(rawdata);
         console.log(`Setting TEST EXCHANGE RATES to redis...this better not be production!`)
         client.HMSET("rates", sampleExchangeRates["rates"])
-        
+        client.set("timestamp", sampleExchangeRates["timestamp"])
         return "OK";
         
     }
@@ -55,6 +68,11 @@ app.get('/seed_data', async (req, res) => {
 
 app.get('/get_rates', async (req, res) => {
     let exchangeRates = await getRatesFromRedis()
+    res.send(exchangeRates);
+});
+
+app.get('/get_timestamp', async (req, res) => {
+    let exchangeRates = await getLatestTimestampFromRedis()
     res.send(exchangeRates);
 });
 
