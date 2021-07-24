@@ -72,8 +72,8 @@ app.get('/get_rates', async (req, res) => {
 });
 
 app.get('/get_latest_timestamp', async (req, res) => {
-    let exchangeRates = await getLatestTimestampFromRedis()
-    res.send(exchangeRates);
+    let timestamp = await getLatestTimestampFromRedis()
+    res.send(timestamp);
 });
 
 const PORT = process.env.PORT || 3000;
