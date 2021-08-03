@@ -11,16 +11,17 @@ jobs:
   deploy:
     runs-on: ubuntu-20.04
     steps:
-      - name: Deploy currensee backend
-        uses: appleboy/ssh-action@v0.1.2
-        with: 
-          host: ${{ secrets.SSH_HOST }} #IP of the server you wish to SSH into
-          key: ${{ secrets.SSH_KEY }}
-          username: ${{ secrets.SSH_USERNAME }}
-          
-          script: | 
-            mkdir test #create folder you want to deploy in to the live server
-            cd test
-            git clone git@github.com:jbrennan414/currensee_backend.git
-            echo 'Deployment was successful to Digital Ocean
-            
+    - name: SSH Remote Commands
+  # You may pin to the exact commit or the version.
+  # uses: appleboy/ssh-action@1d1b21ca96111b1eb4c03c21c14ebb971d2200f6
+      uses: appleboy/ssh-action@v0.1.4
+      with:
+        host: ${{secrets.SSH_HOST}}
+        username: ${{secrets.SSH_USERNAME}}
+        key: ${{secrets.SSH_KEY}}
+        
+        script: |
+          mkdir test
+          cd test
+          git clone git@github.com:jbrennan414/currensee_backend.git
+          echo "Deployment successful to Digital Ocean"
