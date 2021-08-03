@@ -17,18 +17,6 @@ async function getRatesFromRedis(){
     return rates;
 }
 
-async function getLatestTimestampFromRedis(){
-    console.log("Getting timestamp from redis...")
-    const timestamp = new Promise((resolve, reject) => {
-        // TODO add error handling here
-        client.get('timestamp', function (err, res) {
-            resolve(res)
-        })
-    })
-
-    return timestamp;
-}
-
 async function addExchangeRatesToRedis(isProduction){
     
     if (isProduction) {
@@ -66,14 +54,9 @@ app.get('/seed_data', async (req, res) => {
     res.send(exchangeRates);
 });
 
-app.get('/get_rates', async (req, res) => {
+app.get('/', async (req, res) => {
     let exchangeRates = await getRatesFromRedis()
     res.send(exchangeRates);
-});
-
-app.get('/get_latest_timestamp', async (req, res) => {
-    let timestamp = await getLatestTimestampFromRedis()
-    res.send(timestamp);
 });
 
 const PORT = process.env.PORT || 3000;
