@@ -10,7 +10,7 @@ app:
     links:
       - redis
     ports:
-      - 3000:3000
+      - 3000:443
     environment:
       - REDIS_URL=redis://cache
       - NODE_ENV=development
