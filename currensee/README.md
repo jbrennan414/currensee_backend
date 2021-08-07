@@ -38,3 +38,12 @@ RESPONSE
 
 
  -->
+<!-- This shit is so confusing. Ultimately I want to hit api.currensee.app, and it return latest rates 
+
+1) ✅ Setup a docker container with nginx
+2) ✅ Hit localhost:{PORT} and get a response from nginx
+3) ✅ Hit localhost/ and get a response from nginx
+4) Can I wire up / to direct to server.js?
+5) 
+
+ -->
