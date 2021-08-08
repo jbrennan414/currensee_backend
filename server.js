@@ -55,8 +55,9 @@ app.get('/seed_data', async (req, res) => {
 });
 
 app.get('/', async (req, res) => {
-    let exchangeRates = await getRatesFromRedis()
-    res.send(exchangeRates);
+    // let exchangeRates = await getRatesFromRedis()
+    // res.send(exchangeRates);
+    res.send("Hello world")
 });
 
 const PORT = process.env.PORT || 3000;
