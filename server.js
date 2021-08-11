@@ -1,5 +1,4 @@
 // server.js
-require('dotenv').config({ path:'.env' })
 const express = require('express');
 const app = express();
 var redis = require('redis'), client = redis.createClient(6379, 'redis');
@@ -10,6 +9,9 @@ async function getRatesFromRedis(){
     const rates = new Promise((resolve, reject) => {
         // TODO add error handling here
         client.hgetall('rates', function (err, res) {
+            if (err){
+                return
+            }
             resolve(res)
         })
     })
@@ -60,7 +62,7 @@ app.get('/', async (req, res) => {
     res.send("Hello world")
 });
 
-const PORT = process.env.PORT || 5000;
+const PORT = 5000;
 app.listen(PORT, () => {
     
     console.log(`Server listening on port ${PORT}`);
