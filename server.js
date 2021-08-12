@@ -1,55 +1,10 @@
 // server.js
 const express = require('express');
 const app = express();
-var redis = require('redis'), client = redis.createClient(6379, 'redis');
-var fetch = require('node-fetch');
+const { addExchangeRatesToRedis } = require('./addExchangeRatesToRedis');
+const { getRatesFromRedis } = require('./getRatesFromRedis');
+require('dotenv').config();
 
-async function getRatesFromRedis(){
-    console.log("Getting rates from redis...")
-    const rates = new Promise((resolve, reject) => {
-        // TODO add error handling here
-        client.hgetall('rates', function (err, res) {
-            if (err){
-                return
-            }
-            resolve(res)
-        })
-    })
-
-    return rates;
-}
-
-async function addExchangeRatesToRedis(isProduction){
-    
-    if (isProduction) {
-        let exchangeRates = await fetchExchangeRates()
-        console.log(`Setting fresh exchange rates to redis at ${exchangeRates.timestamp}`)
-        client.HMSET("rates", exchangeRates["rates"])
-        client.set("timestamp", exchangeRates["timestamp"])
-        return "OK";
-
-    } else {
-
-        const fs = require('fs');
-
-        let rawdata = fs.readFileSync('sample_response.json');
-        let sampleExchangeRates = JSON.parse(rawdata);
-        console.log(`Setting TEST EXCHANGE RATES to redis...this better not be production!`)
-        client.HMSET("rates", sampleExchangeRates["rates"])
-        client.set("timestamp", sampleExchangeRates["timestamp"])
-        return "OK";
-        
-    }
-}
-
-async function fetchExchangeRates(){
-    const res = await fetch(`http://api.exchangeratesapi.io/v1/latest?access_key=${process.env.API_KEY}`)
-    let json = await res.json();
-
-    console.log("THAT WORKED", json)
-
-    return json;
-}
 
 app.get('/seed_data', async (req, res) => {
     let exchangeRates = await addExchangeRatesToRedis(true)
@@ -57,9 +12,8 @@ app.get('/seed_data', async (req, res) => {
 });
 
 app.get('/', async (req, res) => {
-    // let exchangeRates = await getRatesFromRedis()
-    // res.send(exchangeRates);
-    res.send("Hello world")
+    let exchangeRates = await getRatesFromRedis()
+    res.send(exchangeRates);
 });
 
 const PORT = 5000;
