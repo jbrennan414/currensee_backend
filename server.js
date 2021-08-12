@@ -11,7 +11,7 @@ app.get('/seed_data', async (req, res) => {
     res.send(exchangeRates);
 });
 
-app.get('/', async (req, res) => {
+app.get('/rates', async (req, res) => {
     let exchangeRates = await getRatesFromRedis()
     res.send(exchangeRates);
 });
