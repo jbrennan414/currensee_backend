@@ -7,9 +7,9 @@ async function addExchangeRatesToRedis(){
     
     // if (isProduction) {
         let exchangeRates = await fetchExchangeRates()
-        console.log(`Setting fresh exchange rates to redis at ${exchangeRates.timestamp}`)
-        client.HMSET("rates", exchangeRates["rates"])
-        client.set("timestamp", exchangeRates["timestamp"])
+        let ratesObject = exchangeRates["rates"]
+        ratesObject["timestamp"] = exchangeRates.timestamp
+        client.HMSET("rates", ratesObject)
         return "OK";
 
     // } else {

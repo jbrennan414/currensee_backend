@@ -12,6 +12,19 @@ async function getRatesFromRedis(){
         })
     })
 
+    const timestamp = new Promise((resolve, reject) => {
+        // TODO add error handling here
+        client.hgetall('timestamp', function (err, res) {
+            if (err){
+                return
+            }
+            console.log(res)
+            resolve(res)
+        })
+    })
+
+    rates["timestamp"] = "foobar"
+
     return rates;
 }
 
