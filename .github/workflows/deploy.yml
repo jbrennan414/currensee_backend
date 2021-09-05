@@ -33,4 +33,6 @@ jobs:
         touch .env
         echo API_KEY=${{ secrets.API_KEY }} >> .env
         cat .env
-
+    - name: run another test
+      run: |
+        touch tryagain.txt
