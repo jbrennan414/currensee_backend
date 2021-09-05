@@ -24,3 +24,5 @@ jobs:
           rm -rf currensee_backend
           git clone git@github.com:jbrennan414/currensee_backend.git
           echo "Deployment successful to Digital Ocean"
+          npm i
+          pm2 restart all
