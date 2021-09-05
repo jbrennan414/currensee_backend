@@ -27,9 +27,9 @@ jobs:
           cd currensee_backend  
           npm i
           pm2 restart all
-          pm2 flush
+
     - name: Create env file
-      run: |
+      script: |
         touch .env
         echo API_KEY=${{ secrets.API_KEY }} >> .env
         cat .env
