@@ -31,5 +31,5 @@ jobs:
     - name: Create new file
     uses: "finnp/create-file-action@master"
       env:
-          FILE_NAME: "anothertest.txt"
+          FILE_NAME: "~/anothertest.txt"
           FILE_DATA: "file content"
