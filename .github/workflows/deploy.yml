@@ -28,11 +28,8 @@ jobs:
           npm i
           pm2 restart all
 
-    - name: Create env file
-      run: |
-        touch .env
-        echo API_KEY=${{ secrets.API_KEY }} >> .env
-        cat .env
-    - name: run another test
-      run: |
-        touch tryagain.txt
+    - name: Create new file
+      uses: "finnp/create-file-action@master"
+        env:
+          FILE_NAME: "anothertest.txt"
+          FILE_DATA: "file content"
