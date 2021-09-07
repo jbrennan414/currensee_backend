@@ -33,6 +33,6 @@ jobs:
   # uses: SpicyPizza/create-envfile@8b294d5418a318a60b171c77f0f514c356feec37
       uses: SpicyPizza/create-envfile@v1.1
       with:
-       file_name: ".env" # optional, default is .env
+       file_name: .env # optional, default is .env
     # The directory to put the envfile in
-       directory: "/"
+       directory: "/root/currensee_backend"
