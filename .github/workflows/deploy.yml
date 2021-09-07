@@ -35,4 +35,4 @@ jobs:
       with:
        file_name: .env # optional, default is .env
     # The directory to put the envfile in
-       directory: "/root/currensee_backend"
+       directory: "~/currensee_backend/"
