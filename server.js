@@ -29,6 +29,19 @@ app.get("/", (req, res) => {
     })
 })
 
+app.get("/privacy", (req, res) => {
+    fs.readFile('./privacy.html', null, function (error, data) {
+        if (error) {
+            res.writeHead(404);
+            res.write("Whoops, file not found")
+        } else {
+            res.write(data);
+        }
+        res.end()
+    })
+})
+
+
 const PORT = 5000;
 app.listen(PORT, () => {
     
