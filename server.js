@@ -5,6 +5,8 @@ const app = express();
 const { getRatesFromRedis } = require('./getRatesFromRedis');
 const { addExchangeRatesToRedis } = require('./addExchangeRatesToRedis');
 const fs = require("fs")
+var StatsD = require('hot-shots');
+var dogstatsd = new StatsD();
 
 require('dotenv').config();
 
@@ -14,6 +16,7 @@ cron.schedule('0 */6 * * *', function() {
 
 app.get('/rates', async (req, res) => {
     let exchangeRates = await getRatesFromRedis()
+    dogstatsd.increment('page.views')
     res.send(exchangeRates);
 });
 
