@@ -1,3 +1,6 @@
+[![Build & Deploy](https://github.com/jbrennan414/currensee_backend/actions/workflows/deploy.yml/badge.svg)](https://github.com/jbrennan414/currensee_backend/actions/workflows/deploy.yml)
+
+
 <!-- Spin up Docker container, start node and redis -->
 
 `docker-compose up`
