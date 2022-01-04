@@ -5,20 +5,21 @@ const app = express();
 const { getRatesFromRedis } = require('./getRatesFromRedis');
 const { addExchangeRatesToRedis } = require('./addExchangeRatesToRedis');
 const fs = require("fs")
-var StatsD = require('hot-shots');
-var dogstatsd = new StatsD();
-const { logger } = require("./logger");
 
 require('dotenv').config();
 
-cron.schedule('0 */6 * * *', function() {
-    addExchangeRatesToRedis()
-})
+// cron.schedule('0 */6 * * *', function() {
+    // addExchangeRatesToRedis()
+// })
+
+app.get('/add_rates', async (req, res) => {
+    console.log("Add rates...")
+    let exchangeRates = await addExchangeRatesToRedis()
+    res.send("alright I think that worked");
+});
 
 app.get('/rates', async (req, res) => {
     let exchangeRates = await getRatesFromRedis()
-    dogstatsd.increment('page.views')
-    logger.info("Someone requested rates")
     res.send(exchangeRates);
 });
 
@@ -48,9 +49,7 @@ app.get("/privacy", (req, res) => {
     })
 })
 
-
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    
     console.log(`Server listening on port ${PORT}`);
 });
