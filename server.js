@@ -8,15 +8,15 @@ const fs = require("fs")
 
 require('dotenv').config();
 
-// cron.schedule('0 */6 * * *', function() {
-    // addExchangeRatesToRedis()
-// })
+cron.schedule('0 */6 * * *', function() {
+    addExchangeRatesToRedis()
+})
 
-app.get('/add_rates', async (req, res) => {
-    console.log("Add rates...")
-    let exchangeRates = await addExchangeRatesToRedis()
-    res.send("alright I think that worked");
-});
+// app.get('/add_rates', async (req, res) => {
+//     console.log("Add rates...")
+//     let exchangeRates = await addExchangeRatesToRedis()
+//     res.send("alright I think that worked");
+// });
 
 app.get('/rates', async (req, res) => {
     let exchangeRates = await getRatesFromRedis()

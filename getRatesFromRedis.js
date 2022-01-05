@@ -13,12 +13,11 @@ async function getRatesFromRedis(){
     })
 
     return Promise.all([rates, timestamp]).then((values) => {
-        let finalRates = {}
-        finalRates = rates;
-        
-        return finalRates
+        return {
+            "rates": values[0],
+            "timestamp":values[1]
+        }
     });
-
 }
 
 module.exports = {getRatesFromRedis: getRatesFromRedis}
