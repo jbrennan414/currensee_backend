@@ -1,31 +1,23 @@
-var redis = require('redis'), client = redis.createClient();
+const redisClient = require('./redis-client');
 
 async function getRatesFromRedis(){
+
     console.log("Getting rates from redis...")
-    const rates = new Promise((resolve, reject) => {
-        // TODO add error handling here
-        client.hgetall('rates', function (err, res) {
-            if (err){
-                return
-            }
-            resolve(res)
-        })
+
+    const rates = new Promise((resolve, reject) => { 
+        resolve(redisClient.hgetall("rates"))
     })
 
     const timestamp = new Promise((resolve, reject) => {
-        // TODO add error handling here
-        client.hgetall('timestamp', function (err, res) {
-            if (err){
-                return
-            }
-            console.log(res)
-            resolve(res)
-        })
+        resolve(redisClient.getAsync("timestamp"))
     })
 
-    rates["timestamp"] = "foobar"
-
-    return rates;
+    return Promise.all([rates, timestamp]).then((values) => {
+        return {
+            "rates": values[0],
+            "timestamp":values[1]
+        }
+    });
 }
 
 module.exports = {getRatesFromRedis: getRatesFromRedis}
