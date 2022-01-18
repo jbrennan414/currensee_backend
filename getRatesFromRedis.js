@@ -13,10 +13,11 @@ async function getRatesFromRedis(){
     })
 
     return Promise.all([rates, timestamp]).then((values) => {
-        return {
-            "rates": values[0],
-            "timestamp":values[1]
-        }
+        return values[0]
+        // return {
+        //     "rates": values[0],
+        //     "timestamp":values[1]
+        // }
     });
 }
 
